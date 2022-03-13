@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import HomeView from '@/views/HomeView.vue'
 
 const routes = [
   {
@@ -9,15 +8,32 @@ const routes = [
     meta: {
       layout: 'AppLayoutHome'
     }
+  },
+  {
+    path: '/turnos',
+    component: () => import('@/views/WeekView/WeekView'),
+    children: [
+      {
+        path: 'disponibles',
+        component: () => import('@/views/WeekAvailableView/WeekAvailableView'),
+        meta: {
+          layout: 'AppLayoutHome'
+        }
+      },
+      {
+        path: 'confirmados',
+        component: () => import('@/views/WeekApprovedView/WeekApprovedView'),
+        meta: {
+          layout: 'AppLayoutHome'
+        }
+      }
+    ]
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'not-found',
+    redirect: '/' // PageNotExist, create page /404
   }
-  /*{
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" * '../views/AboutView.vue')
-  }*/
 ]
 
 const router = createRouter({

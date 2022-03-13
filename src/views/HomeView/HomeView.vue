@@ -8,7 +8,7 @@ export default {
   name: 'HomeView',
   data: () => ({
     currentWeek: moment(new Date).week(),
-    currentDate: moment(new Date).format('MM/DD/YYYY')
+    currentDate: moment(new Date).format('DD/MM/YYYY')
   }),
   components: {}
 }

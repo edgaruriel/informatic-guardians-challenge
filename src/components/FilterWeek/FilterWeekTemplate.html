@@ -1,0 +1,31 @@
+
+<div class="row">
+    <div class="col-4">
+        <label>Servicio:</label>
+        <select class="form-select" aria-label="Default select example" v-model="serviceSelected">
+            <option v-for="(item, index) in listService" :value="item">
+                {{item.name}}
+            </option>
+        </select>
+    </div>
+    <div class="col-4">
+        <label>Semana <strong v-if="numberWeek">{{ numberWeek }}</strong></label>
+        <Datepicker v-model="date"
+                    :minDate="minDate"
+                    :maxDate="maxDate"
+                    :clearable="false"
+                    weekPicker
+                    locale="es"
+                    cancel-text="Cancelar"
+                    select-text="Seleccionar"
+                    format="dd/MM/yyyy"
+                    @update:modelValue="calculateNumberWeek">
+        </Datepicker>
+    </div>
+    <div class="col align-self-end">
+        <button class="btn btn-secondary align-bottom" :disabled="isSearch" @click="searchData">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="isSearch"></span>
+            {{ isSearch? 'Buscando...' : 'Buscar' }}
+        </button>
+    </div>
+</div>
