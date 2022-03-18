@@ -7,6 +7,7 @@ import moment from 'moment';
 import Datepicker from 'vue3-date-time-picker';
 import 'vue3-date-time-picker/dist/main.css';
 import ScheduleService from "@/services/ScheduleService";
+import RankDateService from "@/services/RankDateService";
 
 export default {
   name: 'FilterWeek',
@@ -21,9 +22,11 @@ export default {
     const isSearch = ref(false);
     const serviceSelected = ref(null);
     const clickedSearch = ref(false);
+    const disabledDatePicker = ref(true);
     return {
       numberWeek,
       serviceSelected,
+      disabledDatePicker,
       listService,
       clickedSearch,
       datesRank,
@@ -34,9 +37,16 @@ export default {
   },
   mounted() {
     this.listService = this.$route.meta['listService'];
-    // this.minDate = this.$route.meta['minDateCalendar'];
   },
   methods: {
+    findRankDateAvailable() {
+      this.disabledDatePicker = true;
+      RankDateService.getRankDates(this.serviceSelected).then( r => {
+        this.minDate = r.start_date;
+        this.maxDate = r.end_date;
+        this.disabledDatePicker = false;
+      });
+    },
     searchData() {
       this.clickedSearch = true;
       this.isSearch = true;

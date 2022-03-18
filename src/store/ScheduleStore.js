@@ -38,6 +38,9 @@ export default createStore({
     getters: {
         schedules( state ) {
             return state.schedules;
+        },
+        isGetSchedules( state ) {
+            return state.isGetSchedules;
         }
     }
 });

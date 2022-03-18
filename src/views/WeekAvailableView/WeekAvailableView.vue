@@ -19,16 +19,23 @@ export default {
           this.$store.state.serviceContract,
           rankDate[0], rankDate[1],
           this.$store.state.schedules).then( r => {
-        console.log('Result update: ', r);
-        this.$store.dispatch('loadScheduleData', { data: r.data})
-        this.isUpdate = false;
-        this.modeEdit = false;
+          this.$store.dispatch('loadScheduleData', { data: r.data})
+          this.isUpdate = false;
+          this.modeEdit = false;
       });
     }
   },
   created() {
     this.$store.dispatch('loadScheduleData', {data: []});
-    this.unwatch = this.$store.watch(
+    this.unwatchSubmitSchedule = this.$store.watch(
+        (state, getters) => getters.isGetSchedules,
+        (newValue) => {
+          if (newValue) {
+            this.modeEdit = false;
+          }
+        }
+    );
+    this.unwatchSchedules = this.$store.watch(
         (state, getters) => getters.schedules,
         (newValue) => {
           this.freeHours = 0;
@@ -54,7 +61,8 @@ export default {
         });
   },
   beforeUnmount() {
-    this.unwatch();
+    this.unwatchSubmitSchedule();
+    this.unwatchSchedules();
   },
   setup() {
     const modeEdit = ref(false);

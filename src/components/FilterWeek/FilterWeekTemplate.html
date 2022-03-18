@@ -2,7 +2,8 @@
 <div class="row">
     <div class="col-4">
         <label>Servicio:</label>
-        <select class="form-select" aria-label="Default select example" v-model="serviceSelected">
+        <select class="form-select" aria-label="Default select example" v-model="serviceSelected"
+        @change="findRankDateAvailable">
             <option v-for="(item, index) in listService" :value="item.id">
                 {{item.company_name}}
             </option>
@@ -10,8 +11,9 @@
         <small class="text-danger" v-if="clickedSearch && !serviceSelected">Campo requerido</small>
     </div>
     <div class="col-4">
-        <label>Semana <strong v-if="numberWeek">{{ numberWeek }}</strong></label>
+        <label data-bs-toggle="tooltip" title="Seleccione primer un servicio">Semana <strong v-if="numberWeek">{{ numberWeek }}</strong></label>
         <Datepicker v-model="datesRank"
+                    :disabled="disabledDatePicker"
                     :minDate="minDate"
                     :maxDate="maxDate"
                     :clearable="false"
