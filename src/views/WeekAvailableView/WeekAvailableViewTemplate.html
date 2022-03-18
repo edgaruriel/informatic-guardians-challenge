@@ -5,5 +5,55 @@
                 <FilterWeek></FilterWeek>
             </div>
         </div>
+
+        <div class="row mt-2" v-if="$store.state.schedules.length == 0 && !$store.state.isGetSchedules">
+            <div class="col">
+                <div class="alert alert-info">
+                    <strong>Seleccione un servicio y una semana</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-2" v-if="$store.state.schedules.length > 0">
+            <div class="col-8">
+                <div v-if="!modeEdit && $store.state.schedules.length > 0">
+                    <h3 class="text-success">Turnos confirmados</h3>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>No asignadas</th>
+                            <th v-for="(item, index) in summarySchedule"
+                                :style="{ 'background-color': item.colorTag }">{{ item['employeeName'] }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Horas</td>
+                            <td>{{ freeHours }}</td>
+                            <td v-for="(item, index) in summarySchedule" >{{ item['hours'] }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-info" v-if="!modeEdit" @click="modeEdit=true">Editar disponibilidad</button>
+                <button class="btn btn-info" v-if="modeEdit" :disabled="isUpdate" @click="updateSchedule">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="isUpdate"></span>
+                    {{ isUpdate ? 'Actualizando...' : 'Actualizar' }}
+                </button>
+                <button class="btn btn-info m-1" v-if="modeEdit" @click="modeEdit=false">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-4 col-sm-6 col-md-4 col-xs-12" v-for="(item, index) in $store.state.schedules">
+                <ScheduleDay :schedule="item" v-if="!modeEdit"></ScheduleDay>
+                <ScheduleAvailable :schedule="item" v-if="modeEdit"></ScheduleAvailable>
+            </div>
+        </div>
     </div>
 </div>

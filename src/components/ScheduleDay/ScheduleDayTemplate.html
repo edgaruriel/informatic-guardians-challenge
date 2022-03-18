@@ -1,0 +1,33 @@
+
+<div class="card border-primary mb-3">
+    <div class="card-header"><strong>{{ titleTable }}</strong></div>
+    <div class="card-body p-0">
+        <div class="alert alert-info" v-if="schedule.times.length === 0">
+            <strong>El contrato de servicio no contempla esta fecha</strong>
+        </div>
+        <table class="table table-active" v-if="schedule.times.length > 0">
+            <thead>
+            <tr>
+                <th class="text-center" v-for="(column, i) in titleColumns">
+                    {{ column }}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(item, index) in scheduleConfirmed">
+                <td class="p-0 text-center"
+                    :class="{ 'assigment-time': item.employee, 'no-assigment-time': !item.employee }">
+                    <strong>{{ item.start_time }}-{{ item.end_time }}</strong>
+                </td>
+                <td class="p-0 text-center"
+                    :style="{ 'background-color': (item.employee)? item.employee.color_tag : '' }">
+                    <label v-if="item.employee">
+                        {{ item.employee.name }}
+                    </label>
+                    <i class="bi bi-exclamation-triangle" v-if="!item.employee"></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import {listServiceContract} from '@/resolvers/ServiceContractResolver'
+
 
 const routes = [
   {
@@ -12,17 +14,11 @@ const routes = [
   {
     path: '/turnos',
     component: () => import('@/views/WeekView/WeekView'),
+    beforeEnter: [listServiceContract],
     children: [
       {
         path: 'disponibles',
         component: () => import('@/views/WeekAvailableView/WeekAvailableView'),
-        meta: {
-          layout: 'AppLayoutHome'
-        }
-      },
-      {
-        path: 'confirmados',
-        component: () => import('@/views/WeekApprovedView/WeekApprovedView'),
         meta: {
           layout: 'AppLayoutHome'
         }
@@ -32,7 +28,7 @@ const routes = [
   {
     path: '/:catchAll(.*)',
     name: 'not-found',
-    redirect: '/' // PageNotExist, create page /404
+    redirect: '/' // PageNotExist, return the home page
   }
 ]
 

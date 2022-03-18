@@ -1,0 +1,26 @@
+
+<div class="card border-primary mb-3">
+    <div class="card-header"><strong>{{ titleTable }}</strong></div>
+    <div class="card-body p-0">
+        <div class="alert alert-info" v-if="schedule.times.length === 0">
+            <strong>El contrato de servicio no contempla esta fecha</strong>
+        </div>
+        <table class="table table-active" v-if="schedule.times.length > 0">
+            <thead>
+            <tr>
+                <th class="text-center" v-for="(column, i) in titleColumns">
+                    {{ column }}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in schedule.times">
+                    <td class="p-0 text-center"><strong>{{ item.start_time }}-{{ item.end_time }}</strong></td>
+                    <td class="p-0" v-for="(employee, i) in item.employees">
+                        <input type="checkbox" class="form-check m-auto" v-model="employee.checked" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -3,14 +3,15 @@
     <div class="col-4">
         <label>Servicio:</label>
         <select class="form-select" aria-label="Default select example" v-model="serviceSelected">
-            <option v-for="(item, index) in listService" :value="item">
-                {{item.name}}
+            <option v-for="(item, index) in listService" :value="item.id">
+                {{item.company_name}}
             </option>
         </select>
+        <small class="text-danger" v-if="clickedSearch && !serviceSelected">Campo requerido</small>
     </div>
     <div class="col-4">
         <label>Semana <strong v-if="numberWeek">{{ numberWeek }}</strong></label>
-        <Datepicker v-model="date"
+        <Datepicker v-model="datesRank"
                     :minDate="minDate"
                     :maxDate="maxDate"
                     :clearable="false"
@@ -21,6 +22,7 @@
                     format="dd/MM/yyyy"
                     @update:modelValue="calculateNumberWeek">
         </Datepicker>
+        <small class="text-danger" v-if="clickedSearch && datesRank.length === 0">Campo requerido</small>
     </div>
     <div class="col align-self-end">
         <button class="btn btn-secondary align-bottom" :disabled="isSearch" @click="searchData">
