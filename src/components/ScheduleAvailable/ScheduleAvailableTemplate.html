@@ -15,8 +15,9 @@
             </thead>
             <tbody>
                 <tr v-for="(item, index) in schedule.times">
-                    <td class="p-0 text-center"><strong>{{ item.start_time }}-{{ item.end_time }}</strong></td>
-                    <td class="p-0" v-for="(employee, i) in item.employees">
+                    <td class="p-0 text-center"
+                        :class="{ 'assigment-time': item.employees.find((e) => e.is_confirmed), 'no-assigment-time': !item.employees.find((e) => e.is_confirmed) }"><strong>{{ item.start_time }}-{{ item.end_time }}</strong></td>
+                    <td class="p-0" v-for="(employee, i) in item.employees" >
                         <input type="checkbox" class="form-check m-auto" v-model="employee.checked" />
                     </td>
                 </tr>
